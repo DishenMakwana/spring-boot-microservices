@@ -1,4 +1,4 @@
-package com.dishen.inventoryservice.dto;
+package com.dishen.orderservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class InventoryResponse {
     private String skuCode;
-    private boolean inInStock;
+    private boolean isInStock;
 }
