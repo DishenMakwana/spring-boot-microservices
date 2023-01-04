@@ -25,11 +25,11 @@ public class ProductService {
                 .build();
 
         productRepository.save(product);
-        log.info("Product created: {}", product);
+        log.info("Product {} is saved", product.getId());
     }
 
     public List<ProductResponse> getAllProducts() {
-        List<Product> products =  productRepository.findAll();
+        List<Product> products = productRepository.findAll();
 
         return products.stream().map(this::mapToProductResponse).toList();
     }

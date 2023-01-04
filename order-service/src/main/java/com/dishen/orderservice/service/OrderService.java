@@ -1,5 +1,7 @@
 package com.dishen.orderservice.service;
 
+import brave.Span;
+import brave.Tracer;
 import com.dishen.orderservice.dto.InventoryResponse;
 import com.dishen.orderservice.dto.OrderLineItemsDto;
 import com.dishen.orderservice.dto.OrderRequest;
@@ -8,8 +10,6 @@ import com.dishen.orderservice.model.Order;
 import com.dishen.orderservice.model.OrderLineItems;
 import com.dishen.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.sleuth.Span;
-import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,41 +46,38 @@ public class OrderService {
 
         Span inventoryServiceLookup = tracer.nextSpan().name("InventoryServiceLookup");
 
-        try (Tracer.SpanInScope isLookup = tracer.withSpan(inventoryServiceLookup.start())) {
+        try (Tracer.SpanInScope isLookup = tracer.withSpanInScope(inventoryServiceLookup.start())) {
 
             inventoryServiceLookup.tag("call", "inventory-service");
-
-            InventoryResponse[] inventoryResponseArray = webClientBuilder.build().get()
+            // Call Inventory Service, and place order if product is in
+            // stock
+            InventoryResponse[] inventoryResponsArray = webClientBuilder.build().get()
                     .uri("http://inventory-service/api/inventory",
                             uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
                     .retrieve()
                     .bodyToMono(InventoryResponse[].class)
                     .block();
 
-            boolean allProductsInStock = Arrays.stream(inventoryResponseArray)
+            boolean allProductsInStock = Arrays.stream(inventoryResponsArray)
                     .allMatch(InventoryResponse::isInStock);
 
             if (allProductsInStock) {
                 orderRepository.save(order);
-
                 kafkaTemplate.send("notificationTopic", new OrderPlacedEvent(order.getOrderNumber()));
-
                 return "Order Placed Successfully";
             } else {
                 throw new IllegalArgumentException("Product is not in stock, please try again later");
             }
         } finally {
-            inventoryServiceLookup.end();
+            inventoryServiceLookup.flush();
         }
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
         OrderLineItems orderLineItems = new OrderLineItems();
-
         orderLineItems.setPrice(orderLineItemsDto.getPrice());
         orderLineItems.setQuantity(orderLineItemsDto.getQuantity());
         orderLineItems.setSkuCode(orderLineItemsDto.getSkuCode());
-
         return orderLineItems;
     }
 }
