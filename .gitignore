@@ -32,3 +32,11 @@ build/
 ### VS Code ###
 .vscode/
 .idea/
+
+### My SQL Host Data ###
+my-sql-data
+mongo-data
+/mysql_keycloak_data/
+/postgres/
+/postgres-inventory/
+/postgres-order/
