@@ -8,7 +8,6 @@ import com.dishen.orderservice.model.Order;
 import com.dishen.orderservice.model.OrderLineItems;
 import com.dishen.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -63,10 +62,12 @@ public class OrderService {
 
             if (allProductsInStock) {
                 orderRepository.save(order);
+
                 kafkaTemplate.send("notificationTopic", new OrderPlacedEvent(order.getOrderNumber()));
-                return "Order placed successfully";
+
+                return "Order Placed Successfully";
             } else {
-                throw new IllegalArgumentException("Product out of stock");
+                throw new IllegalArgumentException("Product is not in stock, please try again later");
             }
         } finally {
             inventoryServiceLookup.end();
