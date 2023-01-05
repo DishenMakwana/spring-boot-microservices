@@ -30,7 +30,7 @@ spec:
         - name: mongo-claim0
           persistentVolumeClaim:
             claimName: mongo-claim0
-status: {}
+
 ---
 apiVersion: v1
 kind: Service
@@ -47,6 +47,7 @@ spec:
     app: mongo
 status:
   loadBalancer: {}
+  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -60,4 +61,3 @@ spec:
   resources:
     requests:
       storage: 100Mi
-status: {}

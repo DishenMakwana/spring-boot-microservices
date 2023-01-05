@@ -12,7 +12,6 @@ spec:
   strategy: {}
   template:
     metadata:
-
       labels:
         app: inventory-service
     spec:
@@ -22,11 +21,11 @@ spec:
               value: jdbc:postgresql://postgres-inventory:5432/inventory-service
             - name: SPRING_PROFILES_ACTIVE
               value: docker
-          image: saiupadhyayula007/inventory-service:latest
+          image: dishenmakwana/inventory-service:latest
           name: inventory-service
           resources: {}
       restartPolicy: Always
-status: {}
+
 ---
 apiVersion: v1
 kind: Service

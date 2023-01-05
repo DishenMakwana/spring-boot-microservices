@@ -12,7 +12,6 @@ spec:
   strategy: {}
   template:
     metadata:
-
       labels:
         app: order-service
     spec:
@@ -22,11 +21,11 @@ spec:
               value: jdbc:postgresql://postgres-order:5431/order-service
             - name: SPRING_PROFILES_ACTIVE
               value: docker
-          image: saiupadhyayula007/order-service:latest
+          image: dishenmakwana/order-service:latest
           name: order-service
           resources: {}
       restartPolicy: Always
-status: {}
+
 ---
 apiVersion: v1
 kind: Service

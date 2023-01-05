@@ -37,12 +37,11 @@ spec:
         - name: keycloak-mysql-claim0
           persistentVolumeClaim:
             claimName: keycloak-mysql-claim0
-status: {}
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
   labels:
     app: keycloak-mysql-claim0
   name: keycloak-mysql-claim0
@@ -52,4 +51,3 @@ spec:
   resources:
     requests:
       storage: 100Mi
-status: {}

@@ -12,7 +12,6 @@ spec:
   strategy: {}
   template:
     metadata:
-
       labels:
         app: zipkin
     spec:
@@ -23,7 +22,7 @@ spec:
             - containerPort: 9411
           resources: {}
       restartPolicy: Always
-status: {}
+
 ---
 apiVersion: v1
 kind: Service
@@ -32,10 +31,12 @@ metadata:
     app: zipkin
   name: zipkin
 spec:
+  type: NodePort
   ports:
     - name: "9411"
       port: 9411
       targetPort: 9411
+      nodePort: 30001
   selector:
     app: zipkin
 status:

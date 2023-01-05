@@ -28,7 +28,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: password
             - name: POSTGRES_USER
-              value: ptechie
+              value: dishen
           image: postgres
           name: postgres-order
           ports:
@@ -42,7 +42,7 @@ spec:
         - name: postgres-order-claim0
           persistentVolumeClaim:
             claimName: postgres-order-claim0
-status: {}
+
 ---
 apiVersion: v1
 kind: Service
@@ -59,6 +59,7 @@ spec:
     app: postgres-order
 status:
   loadBalancer: {}
+  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -72,4 +73,3 @@ spec:
   resources:
     requests:
       storage: 100Mi
-status: {}

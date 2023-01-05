@@ -4,7 +4,6 @@ metadata:
   annotations:
     kompose.cmd: F:\tools\kompose.exe convert
     kompose.version: 1.26.1 (a9d05d509)
-  creationTimestamp: null
   labels:
     app: grafana
   name: grafana
@@ -39,7 +38,7 @@ spec:
         - name: grafana-claim0
           persistentVolumeClaim:
             claimName: grafana-claim0
-status: {}
+
 ---
 apiVersion: v1
 kind: Service
@@ -47,7 +46,6 @@ metadata:
   annotations:
     kompose.cmd: F:\tools\kompose.exe convert
     kompose.version: 1.26.1 (a9d05d509)
-  creationTimestamp: null
   labels:
     app: grafana
   name: grafana
@@ -60,11 +58,11 @@ spec:
     app: grafana
 status:
   loadBalancer: {}
+  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
   labels:
     app: grafana-claim0
   name: grafana-claim0
@@ -74,4 +72,3 @@ spec:
   resources:
     requests:
       storage: 100Mi
-status: {}

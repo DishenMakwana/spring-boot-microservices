@@ -12,7 +12,6 @@ spec:
   strategy: {}
   template:
     metadata:
-
       labels:
         app: discovery-server
     spec:
@@ -20,13 +19,13 @@ spec:
         - env:
             - name: SPRING_PROFILES_ACTIVE
               value: docker
-          image: saiupadhyayula007/discovery-server:latest
+          image: dishenmakwana/discovery-server:latest
           name: discovery-server
           ports:
             - containerPort: 8761
           resources: {}
       restartPolicy: Always
-status: {}
+
 ---
 apiVersion: v1
 kind: Service

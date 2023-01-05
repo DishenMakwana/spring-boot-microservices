@@ -23,7 +23,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: password
             - name: POSTGRES_USER
-              value: ptechie
+              value: dishen
           image: postgres
           name: postgres-inventory
           ports:
@@ -54,6 +54,7 @@ spec:
     app: postgres-inventory
 status:
   loadBalancer: {}
+  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -67,4 +68,3 @@ spec:
   resources:
     requests:
       storage: 100Mi
-status: {}
